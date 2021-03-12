@@ -18,21 +18,9 @@ static int cor = 1;
 */
 static int posicao = 0;
 
-// Inicializa os parametros globais de OpenGL
-void init(void) {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glShadeModel(GL_SMOOTH);						
-    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);	
-    glEnable(GL_LIGHTING);
-    glEnable(GL_COLOR_MATERIAL);
-
-    // Luz Ambiente
-    float globalAmb[] = { 0.1f, 0.1f, 0.1f, 1.f };
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
-
-    // Primeira Luz
+// Ativar luz 1
+void enableLightOne() {
+	// Primeira Luz
     glEnable(GL_LIGHT0);
 
     float light0[4][4] = {
@@ -51,7 +39,10 @@ void init(void) {
     glLightfv(GL_LIGHT0, GL_DIFFUSE,  &light0[1][0]);
     glLightfv(GL_LIGHT0, GL_SPECULAR, &light0[2][0]);
     glLightfv(GL_LIGHT0, GL_POSITION, &light0[3][0]);
+}
 
+// Ativar luz 2
+void enableLightTwo() {
     // Segunda Luz
     glEnable(GL_LIGHT1);
 
@@ -71,6 +62,31 @@ void init(void) {
     glLightfv(GL_LIGHT1, GL_DIFFUSE,  &light1[1][0]);
     glLightfv(GL_LIGHT1, GL_SPECULAR, &light1[2][0]);
     glLightfv(GL_LIGHT1, GL_POSITION, &light1[3][0]);
+}
+
+// Desativar luz 1
+void disableLightOne() {
+    glDisable(GL_LIGHT0);
+}
+
+// Desativar luz 2
+void disableLightTwo() {
+    glDisable(GL_LIGHT1);
+}
+
+// Inicializa os parametros globais de OpenGL
+void init(void) {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glShadeModel(GL_SMOOTH);						
+    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);	
+    glEnable(GL_LIGHTING);
+    glEnable(GL_COLOR_MATERIAL);
+
+    // Luz Ambiente
+    float globalAmb[] = { 0.1f, 0.1f, 0.1f, 1.f };
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
 }
 
 // Posicao do usuario
@@ -656,6 +672,18 @@ void keyboard(unsigned char key, int x, int y) {
             }
             movimentoMaos();
             glutPostRedisplay();
+            break;
+        case 'z':
+            enableLightOne();
+            break;
+        case 'x':
+            enableLightTwo();
+            break;
+        case 'c':
+            disableLightOne();
+            break;
+        case 'v':
+            disableLightTwo();
             break;
         default:        
             break;
