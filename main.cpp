@@ -9,6 +9,7 @@ static int anguloHorizontal = 0, anguloVertical = 0;
 static int mao1 = 0, mao2 = 0;
 static int movimentoMao = 5, posicaoAmbiente = 0.0;
 static int cor = 1;
+GLfloat zoom = 0;
 /*
     A posicao do animal se da pelo angulo em relacao ao ambiente
     Se o animal tiver virado para a direita da tela, ele esta com angulo 0 graus
@@ -171,6 +172,8 @@ void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	PosicaoUser();
+	
+	glTranslatef(0.0f, 0.0f, zoom);
 	
 	glMatrixMode(GL_MODELVIEW);
 
@@ -561,6 +564,17 @@ void display(void) {
 	glutSwapBuffers();
 }
 
+// Funcao que faz o movimento do mouse
+void mouse(int button, int state, int mousex, int mousey) { 
+  if(button==GLUT_LEFT_BUTTON){
+  	zoom -= 1.0;
+  }
+  else if(button==GLUT_RIGHT_BUTTON){
+  	zoom += 1.0;
+  }
+  display();
+}
+
 // Funcao que realiza o movimento das maos
 void movimentoMaos(void) {
     if (mao1 == 30) {
@@ -718,6 +732,7 @@ int main(int argc, char** argv) {
    glutKeyboardFunc(keyboard);
    glutSpecialFunc(arrow_keys);
    glutIdleFunc(display);
+  glutMouseFunc(mouse);
    glutMainLoop();
    return 0;       
 }
