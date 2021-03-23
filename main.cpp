@@ -10,6 +10,13 @@ static int mao1 = 0, mao2 = 0;
 static int movimentoMao = 5, posicaoAmbiente = 0.0;
 static int cor = 1;
 GLfloat zoom = 0;
+#define	checkImageWidth 64
+#define	checkImageHeight 64
+static GLubyte checkImage[checkImageHeight][checkImageWidth][4];
+
+#ifdef GL_VERSION_1_1
+static GLuint texName;
+#endif
 /*
     A posicao do animal se da pelo angulo em relacao ao ambiente
     Se o animal tiver virado para a direita da tela, ele esta com angulo 0 graus
@@ -74,6 +81,20 @@ void disableLightOne() {
 void disableLightTwo() {
     glDisable(GL_LIGHT1);
 }
+void makeCheckImage(void)
+{
+   int i, j, c;
+    
+   for (i = 0; i < checkImageHeight; i++) {
+      for (j = 0; j < checkImageWidth; j++) {
+         c = ((((j&0x10))==0))*255;
+         checkImage[i][j][0] = (GLubyte) c;
+         checkImage[i][j][1] = (GLubyte) c;
+         checkImage[i][j][2] = (GLubyte) c;
+         checkImage[i][j][3] = (GLubyte) 255;
+      }
+   }
+}
 
 // Inicializa os parametros globais de OpenGL
 void init(void) {
@@ -88,6 +109,23 @@ void init(void) {
     // Luz Ambiente
     float globalAmb[] = { 0.1f, 0.1f, 0.1f, 1.f };
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmb);
+    
+    makeCheckImage();
+   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+#ifdef GL_VERSION_1_1
+   glGenTextures(2, &texName);
+   glBindTexture(GL_TEXTURE_2D, texName);
+#endif
+
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+   glTexImage2D(GL_TEXTURE_2D, 0, 4, checkImageWidth, checkImageHeight, 
+                0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+
 }
 
 // Posicao do usuario
@@ -127,43 +165,44 @@ void reshape(int w, int h) {
 // Funcao que desenha um cubo
 // Serve de axiliar para realizar os desenhos
 void DesenharCubo() {
+	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);
 		// Face frontal
 		glNormal3f(0, 0, 1);
-		glVertex3f(-1.0f, -1.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, 1.0f);
-		glVertex3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(-1.0f, 1.0f, 1.0f);
+		glTexCoord2f(0.0, 0.0); glVertex3f(-1.0f, -1.0f, 1.0f);
+		glTexCoord2f(0.0, 1.0); glVertex3f(1.0f, -1.0f, 1.0f);
+		glTexCoord2f(1.0, 1.0); glVertex3f(1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0, 0.0); glVertex3f(-1.0f, 1.0f, 1.0f);
 		// Face de tras
 		glNormal3f(0, 0, -1);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-		glVertex3f(-1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, -1.0f, -1.0f);
+		glTexCoord2f(0.0, 0.0);glVertex3f(-1.0f, -1.0f, -1.0f);
+		glTexCoord2f(0.0, 1.0);glVertex3f(-1.0f, 1.0f, -1.0f);
+		glTexCoord2f(1.0, 1.0);glVertex3f(1.0f, 1.0f, -1.0f);
+		glTexCoord2f(1.0, 0.0);glVertex3f(1.0f, -1.0f, -1.0f);
 		// Face de cima
 		glNormal3f(0, 1, 0);
-		glVertex3f(-1.0f, 1.0f, -1.0f);
-		glVertex3f(-1.0f, 1.0f, 1.0f);
-		glVertex3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(1.0f, 1.0f, -1.0f);
+		glTexCoord2f(0.0, 0.0);glVertex3f(-1.0f, 1.0f, -1.0f);
+		glTexCoord2f(0.0, 1.0);glVertex3f(-1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0, 1.0);glVertex3f(1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0, 0.0);glVertex3f(1.0f, 1.0f, -1.0f);
 		// Face de baixo
 		glNormal3f(0, -1, 0);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-		glVertex3f(1.0f, -1.0f, -1.0f);
-		glVertex3f(1.0f, -1.0f, 1.0f);
-		glVertex3f(-1.0f, -1.0f, 1.0f);
+		glTexCoord2f(0.0, 0.0);glVertex3f(-1.0f, -1.0f, -1.0f);
+		glTexCoord2f(0.0, 1.0);glVertex3f(1.0f, -1.0f, -1.0f);
+		glTexCoord2f(1.0, 1.0);glVertex3f(1.0f, -1.0f, 1.0f);
+		glTexCoord2f(1.0, 0.0);glVertex3f(-1.0f, -1.0f, 1.0f);
 		// Face da direita
 		glNormal3f(1,0,0);
-		glVertex3f(1.0f, -1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, -1.0f);
-		glVertex3f(1.0f, 1.0f, 1.0f);
-		glVertex3f(1.0f, -1.0f, 1.0f);
+		glTexCoord2f(0.0, 0.0);glVertex3f(1.0f, -1.0f, -1.0f);
+		glTexCoord2f(0.0, 1.0);glVertex3f(1.0f, 1.0f, -1.0f);
+		glTexCoord2f(1.0, 1.0);glVertex3f(1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0, 0.0);glVertex3f(1.0f, -1.0f, 1.0f);
 		// Face da esquerda
 		glNormal3f(-1, 0, 0);
-		glVertex3f(-1.0f, -1.0f, -1.0f);
-		glVertex3f(-1.0f, -1.0f, 1.0f);
-		glVertex3f(-1.0f, 1.0f, 1.0f);
-		glVertex3f(-1.0f, 1.0f, -1.0f);
+		glTexCoord2f(0.0, 0.0);glVertex3f(-1.0f, -1.0f, -1.0f);
+		glTexCoord2f(0.0, 1.0);glVertex3f(-1.0f, -1.0f, 1.0f);
+		glTexCoord2f(1.0, 1.0);glVertex3f(-1.0f, 1.0f, 1.0f);
+		glTexCoord2f(1.0, 0.0);glVertex3f(-1.0f, 1.0f, -1.0f);
 	glEnd();
 }
 
@@ -176,6 +215,8 @@ void display(void) {
 	glTranslatef(0.0f, 0.0f, zoom);
 	
 	glMatrixMode(GL_MODELVIEW);
+	
+
 
     // Desenho do ambiente
     glPushMatrix();
@@ -205,9 +246,10 @@ void display(void) {
         glScalef(0.01f, 0.01f, 1.0f);
         glTranslatef(posicaoAmbiente, 0.0f, 40.0f);
     glPopMatrix();
-
+	
     // Desenho do animal
     glPushMatrix();
+    	
         // Rotaciona o desenho
         glTranslatef(0.0f, 0.0f, -10.0f);
         glRotatef((GLfloat) posicao, 0.0, 1.0, 0.0);
