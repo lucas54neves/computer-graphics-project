@@ -87,9 +87,9 @@ void makeCheckImage(void)
     
    for (i = 0; i < checkImageHeight; i++) {
       for (j = 0; j < checkImageWidth; j++) {
-         c = ((((j&0x10))==0))*255;
+         c = ((((i&0x8)==0)^((j&0x8))==0))*255;
          checkImage[i][j][0] = (GLubyte) c;
-         checkImage[i][j][1] = (GLubyte) c;
+         checkImage[i][j][1] = (GLubyte) c; // brilho do antebraço e cabeça
          checkImage[i][j][2] = (GLubyte) c;
          checkImage[i][j][3] = (GLubyte) 255;
       }
@@ -165,7 +165,7 @@ void reshape(int w, int h) {
 // Funcao que desenha um cubo
 // Serve de axiliar para realizar os desenhos
 void DesenharCubo() {
-	glEnable(GL_TEXTURE_2D);
+//	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);
 		// Face frontal
 		glNormal3f(0, 0, 1);
@@ -204,6 +204,8 @@ void DesenharCubo() {
 		glTexCoord2f(1.0, 1.0);glVertex3f(-1.0f, 1.0f, 1.0f);
 		glTexCoord2f(1.0, 0.0);glVertex3f(-1.0f, 1.0f, -1.0f);
 	glEnd();
+//	glFlush();
+//  glDisable(GL_TEXTURE_2D);
 }
 
 // Funcao que realizar os desenhos
@@ -246,7 +248,8 @@ void display(void) {
         glScalef(0.01f, 0.01f, 1.0f);
         glTranslatef(posicaoAmbiente, 0.0f, 40.0f);
     glPopMatrix();
-	
+    
+		glEnable(GL_TEXTURE_2D);
     // Desenho do animal
     glPushMatrix();
     	
@@ -602,7 +605,8 @@ void display(void) {
             glPopMatrix();
         glPopMatrix();
     glPopMatrix();
-
+    glFlush();
+    glDisable(GL_TEXTURE_2D);
 	glutSwapBuffers();
 }
 
@@ -778,3 +782,4 @@ int main(int argc, char** argv) {
    glutMainLoop();
    return 0;       
 }
+
