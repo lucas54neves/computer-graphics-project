@@ -208,57 +208,44 @@ void DesenharCubo() {
 //  glDisable(GL_TEXTURE_2D);
 }
 
-void desenhaAmbiente() {
-    glPushMatrix();
-        glTranslatef(-posicaoAmbiente, 0.0f, 0.0f);
-        glScalef(100.0f, 100.0f, 1.0f);
-
-        glTranslatef(0.0f, 0.0f, -40.0f);
-        // Cinza
-        glColor3f(0.5f, 0.5f, 0.5f);
-        DesenharCubo();
-
-        glTranslatef(2.0f, 0.0f, 0.0f);
-        // Camuflagem azul
-        glColor3f(0.0f, 0.0f, 1.0f);
-        DesenharCubo();
-
-        glTranslatef(2.0f, 0.0f, 0.0f);
-        // Camuflagem vermelha
-        glColor3f(1.0f, 0.0f, 0.0f);
-        DesenharCubo();
-
-        glTranslatef(2.0f, 0.0f, 0.0f);
-        // Camuflagem amarelo
-        glColor3f(1.0f, 1.0f, 0.0f);
-        DesenharCubo();
-
-        glScalef(0.01f, 0.01f, 1.0f);
-        glTranslatef(posicaoAmbiente, 0.0f, 40.0f);
-    glPopMatrix();
-}
-
 void selecionarCor(int cor) {
     switch (cor) {
-        // Cor original
         case 1:
             glColor3f(0.0f, 1.0f, 0.0f);
             break;
-        // Camuflagem azul
         case 2:
             glColor3f(0.0f, 0.0f, 1.0f);
             break;
-        // Camuflagem vermelha
         case 3:
             glColor3f(1.0f, 0.0f, 0.0f);
             break;
-        // Camuflagem amarelo
         case 4:
             glColor3f(1.0f, 1.0f, 0.0f);
             break;
         default:
             break;
     }
+}
+
+void desenhaAmbiente() {
+    glPushMatrix();
+        glTranslatef(-posicaoAmbiente, 0.0f, 0.0f);
+        glScalef(100.0f, 100.0f, 1.0f);
+        glTranslatef(0.0f, 0.0f, -40.0f);
+        selecionarCor(4)
+        DesenharCubo();
+        glTranslatef(2.0f, 0.0f, 0.0f);
+        selecionarCor(3)
+        DesenharCubo();
+        glTranslatef(2.0f, 0.0f, 0.0f);
+        selecionarCor(2)
+        DesenharCubo();
+        glTranslatef(2.0f, 0.0f, 0.0f);
+        selecionarCor(1)
+        DesenharCubo();
+        glScalef(0.01f, 0.01f, 1.0f);
+        glTranslatef(posicaoAmbiente, 0.0f, 40.0f);
+    glPopMatrix();
 }
 
 void desenharMaoDireitaDianteira() {
