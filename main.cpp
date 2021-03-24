@@ -208,19 +208,7 @@ void DesenharCubo() {
 //  glDisable(GL_TEXTURE_2D);
 }
 
-// Funcao que realizar os desenhos
-void display(void) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	PosicaoUser();
-	
-	glTranslatef(0.0f, 0.0f, zoom);
-	
-	glMatrixMode(GL_MODELVIEW);
-	
-
-
-    // Desenho do ambiente
+void desenhaAmbiente() {
     glPushMatrix();
         glTranslatef(-posicaoAmbiente, 0.0f, 0.0f);
         glScalef(100.0f, 100.0f, 1.0f);
@@ -248,358 +236,177 @@ void display(void) {
         glScalef(0.01f, 0.01f, 1.0f);
         glTranslatef(posicaoAmbiente, 0.0f, 40.0f);
     glPopMatrix();
-    
-		glEnable(GL_TEXTURE_2D);
-    // Desenho do animal
+}
+
+void selecionarCor(int cor) {
+    switch (cor) {
+        // Cor original
+        case 1:
+            glColor3f(0.0f, 1.0f, 0.0f);
+            break;
+        // Camuflagem azul
+        case 2:
+            glColor3f(0.0f, 0.0f, 1.0f);
+            break;
+        // Camuflagem vermelha
+        case 3:
+            glColor3f(1.0f, 0.0f, 0.0f);
+            break;
+        // Camuflagem amarelo
+        case 4:
+            glColor3f(1.0f, 1.0f, 0.0f);
+            break;
+        default:
+            break;
+    }
+}
+
+void desenharMaoDireitaDianteira() {
+    glTranslatef(4.0f, 3.0f, -10.0f);
+    glRotatef((GLfloat) mao1, 1.0, 0.0, 0.0);
+    glTranslatef(-4.0f, -3.0f, 10.0f);
+    glTranslatef(4.25f, 3.0f, -11.0f);
+    glScalef(0.25f, 0.5f, 1.0f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(4.0f, 2.0f, 1.0f);
+    glTranslatef(-4.25f, -3.0f, 11.0f);
+}
+
+void desenharMaoEsquerdaDianteira() {
+    glTranslatef(4.0f, 3.0f, -10.0f);
+    glRotatef((GLfloat) mao2, 1.0, 0.0, 0.0);
+    glTranslatef(-4.0f, -3.0f, 10.0f);
+    glTranslatef(-4.25f, 3.0f, -11.0f);
+    glScalef(0.25f, 0.5f, 1.0f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(4.0f, 2.0f, 1.0f);
+    glTranslatef(4.25f, -3.0f, 11.0f);
+}
+
+void desenharMaoEsquerdaTraseira() {
+    glTranslatef(3.0f, -3.0f, -10.0f);
+    glRotatef((GLfloat) mao2, 1.0, 0.0, 0.0);
+    glTranslatef(-3.0f, 3.0f, 10.0f);
+    glTranslatef(-4.25f, -3.0f, -11.0f);
+    glScalef(0.25f, 0.5f, 1.0f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(4.0f, 2.0f, 1.0f);
+    glTranslatef(4.25f, 3.0f, 11.0f);
+}
+
+void desenharMaoDireitaTraseira() {
+    glTranslatef(3.0f, -3.0f, -10.0f);
+    glRotatef((GLfloat) mao1, 1.0, 0.0, 0.0);
+    glTranslatef(-3.0f, 3.0f, 10.0f);
+    glTranslatef(4.25f, -3.0f, -11.0f);
+    glScalef(0.25f, 0.5f, 1.0f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(4.0f, 2.0f, 1.0f);
+    glTranslatef(-4.25f, 3.0f, 11.0f);
+}
+
+void desenharBracoDireitoTraseiro() {
+    glTranslatef(3.0f, -3.0f, -10.0f);
+    glScalef(1.0f, 0.5f, 0.25f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(1.0f, 2.0f, 4.0f);
+    glTranslatef(-3.0f, 3.0f, 10.0f);
+}
+
+void desenharBracoEsquerdoTraseiro() {
+    glTranslatef(-3.0f, -3.0f, -10.0f);
+    glScalef(1.0f, 0.5f, 0.25f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(1.0f, 2.0f, 4.0f);
+    glTranslatef(3.0f, 3.0f, 10.0f);
+}
+
+void desenharBracoEsquerdoDianteiro() {
+    glTranslatef(-3.0f, 3.0f, -10.0f);
+    glScalef(1.0f, 0.5f, 0.25f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(1.0f, 2.0f, 4.0f);
+    glTranslatef(3.0f, -3.0f, 10.0f);
+}
+
+void desenharBracoDireitoDianteiro() {
+    glTranslatef(3.0f, 3.0f, -10.0f);
+    glScalef(1.0f, 0.5f, 0.25f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(1.0f, 2.0f, 4.0f);
+    glTranslatef(-3.0f, -3.0f, 10.0f);
+}
+
+void desenharCabeca() {
+    glTranslatef(0.0f, 5.0f, -10.0f);
+    glScalef(1.0f, 1.0f, 0.5f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(1.0f, 1.0f, 2.0f);
+    glTranslatef(0.0f, -5.0f, 10.0f);
+}
+
+void desenharTronco() {
+    glTranslatef(0.0f, 0.0f, -10.0f);
+    glScalef(2.0f, 4.0f, 1.0f);
+    selecionarCor(cor);
+    DesenharCubo();
+    glScalef(0.5f, 0.25f, 1.0f);
+    glTranslatef(0.0f, 0.0f, 10.0f);
+}
+
+void moverAnimalVertical() {
+    glTranslatef(0.0f, 0.0f, -10.0f);
+    glRotatef(-90, 0, 1, 0);
+    glRotatef(-90, 1, 0, 0);
+    glTranslatef(0.0f, 0.0f, 10.0f);
+}
+
+void rotacionarDesenho() {
+    glTranslatef(0.0f, 0.0f, -10.0f);
+    glRotatef((GLfloat) posicao, 0.0, 1.0, 0.0);
+    glTranslatef(0.0f, 0.0f, 10.0f);
+}
+
+void desenhaCamaleao() {
+    glEnable(GL_TEXTURE_2D);
     glPushMatrix();
-    	
-        // Rotaciona o desenho
-        glTranslatef(0.0f, 0.0f, -10.0f);
-        glRotatef((GLfloat) posicao, 0.0, 1.0, 0.0);
-        glTranslatef(0.0f, 0.0f, 10.0f);
-
-        // Desenho do camaleao
+        rotacionarDesenho();
         glPushMatrix();
-            // Coloca o animal na vertical
-            glTranslatef(0.0f, 0.0f, -10.0f);
-            glRotatef(-90, 0, 1, 0);
-            glRotatef(-90, 1, 0, 0);
-            glTranslatef(0.0f, 0.0f, 10.0f);
-
-            // Tronco do animal
-            glTranslatef(0.0f, 0.0f, -10.0f);
-            glScalef(2.0f, 4.0f, 1.0f);
-            
-            // Selecao das cores
-            switch (cor) {
-                // Cor original
-                case 1:
-                    glColor3f(0.0f, 0.0f, 1.0f);
-                    break;
-                // Camuflagem azul
-                case 2:
-                    glColor3f(0.0f, 0.0f, 1.0f);
-                    break;
-                // Camuflagem vermelha
-                case 3:
-                    glColor3f(1.0f, 0.0f, 0.0f);
-                    break;
-                // Camuflagem amarelo
-                case 4:
-                    glColor3f(1.0f, 1.0f, 0.0f);
-                    break;
-                default:
-                    break;
-            }
-            
-            DesenharCubo();
-            glScalef(0.5f, 0.25f, 1.0f);
-            glTranslatef(0.0f, 0.0f, 10.0f);
-
+            moverAnimalVertical();
+            desenharTronco();
             glPushMatrix();
-                // Cabeca do animal
-                glTranslatef(0.0f, 5.0f, -10.0f);
-                glScalef(1.0f, 1.0f, 0.5f);
-            
-                // Selecao das cores
-                switch (cor) {
-                    // Cor original
-                    case 1:
-                        glColor3f(0.0f, 1.0f, 0.0f);
-                        break;
-                    // Camuflagem azul
-                    case 2:
-                        glColor3f(0.0f, 0.0f, 1.0f);
-                        break;
-                    // Camuflagem vermelha
-                    case 3:
-                        glColor3f(1.0f, 0.0f, 0.0f);
-                        break;
-                    // Camuflagem amarelo
-                    case 4:
-                        glColor3f(1.0f, 1.0f, 0.0f);
-                        break;
-                    default:
-                        break;
-                }
-            
-                DesenharCubo();
-                glScalef(1.0f, 1.0f, 2.0f);
-                glTranslatef(0.0f, -5.0f, 10.0f);
-
+                desenharCabeca();
                 glPushMatrix();
-                    // Braco dianteiro da direita
-                    glTranslatef(3.0f, 3.0f, -10.0f);
-                    glScalef(1.0f, 0.5f, 0.25f);
-            
-                    // Selecao das cores
-                    switch (cor) {
-                        // Cor original
-                        case 1:
-                            glColor3f(0.0f, 1.0f, 0.0f);
-                            break;
-                        // Camuflagem azul
-                        case 2:
-                            glColor3f(0.0f, 0.0f, 1.0f);
-                            break;
-                        // Camuflagem vermelha
-                        case 3:
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            break;
-                        // Camuflagem amarelo
-                        case 4:
-                            glColor3f(1.0f, 1.0f, 0.0f);
-                            break;
-                        default:
-                            break;
-                    }
-            
-                    DesenharCubo();
-                    glScalef(1.0f, 2.0f, 4.0f);
-                    glTranslatef(-3.0f, -3.0f, 10.0f);
-
+                    desenharBracoDireitoDianteiro;
                     glPushMatrix();
-                        // Movimento da mao
-                        glTranslatef(4.0f, 3.0f, -10.0f);
-                        glRotatef((GLfloat) mao1, 1.0, 0.0, 0.0);
-                        glTranslatef(-4.0f, -3.0f, 10.0f);
-
-                        // Desenho da mao
-                        glTranslatef(4.25f, 3.0f, -11.0f);
-                        glScalef(0.25f, 0.5f, 1.0f);
-            
-                        // Selecao das cores
-                        switch (cor) {
-                            // Cor original
-                            case 1:
-                                glColor3f(0.0f, 0.0f, 1.0f);
-                                break;
-                            // Camuflagem azul
-                            case 2:
-                                glColor3f(0.0f, 0.0f, 1.0f);
-                                break;
-                            // Camuflagem vermelha
-                            case 3:
-                                glColor3f(1.0f, 0.0f, 0.0f);
-                                break;
-                            // Camuflagem amarelo
-                            case 4:
-                                glColor3f(1.0f, 1.0f, 0.0f);
-                                break;
-                            default:
-                                break;
-                        }
-            
-                        DesenharCubo();
-                        glScalef(4.0f, 2.0f, 1.0f);
-                        glTranslatef(-4.25f, -3.0f, 11.0f);
+                        desenharMaoDireitaDianteira();
                     glPopMatrix();
                 glPopMatrix();
-
                 glPushMatrix();
-                    // Braco dianteiro da esquerda
-                    glTranslatef(-3.0f, 3.0f, -10.0f);
-                    glScalef(1.0f, 0.5f, 0.25f);
-            
-                    // Selecao das cores
-                    switch (cor) {
-                        // Cor original
-                        case 1:
-                            glColor3f(0.0f, 1.0f, 0.0f);
-                            break;
-                        // Camuflagem azul
-                        case 2:
-                            glColor3f(0.0f, 0.0f, 1.0f);
-                            break;
-                        // Camuflagem vermelha
-                        case 3:
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            break;
-                        // Camuflagem amarelo
-                        case 4:
-                            glColor3f(1.0f, 1.0f, 0.0f);
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    DesenharCubo();
-                    glScalef(1.0f, 2.0f, 4.0f);
-                    glTranslatef(3.0f, -3.0f, 10.0f);
-
+                    desenharBracoEsquerdoDianteiro();
                     glPushMatrix();
-                        // Movimento da mao
-                        glTranslatef(4.0f, 3.0f, -10.0f);
-                        glRotatef((GLfloat) mao2, 1.0, 0.0, 0.0);
-                        glTranslatef(-4.0f, -3.0f, 10.0f);
-
-                        // Desenho da mao
-                        glTranslatef(-4.25f, 3.0f, -11.0f);
-                        glScalef(0.25f, 0.5f, 1.0f);
-            
-                        // Selecao das cores
-                        switch (cor) {
-                            // Cor original
-                            case 1:
-                                glColor3f(0.0f, 0.0f, 1.0f);
-                                break;
-                            // Camuflagem azul
-                            case 2:
-                                glColor3f(0.0f, 0.0f, 1.0f);
-                                break;
-                            // Camuflagem vermelha
-                            case 3:
-                                glColor3f(1.0f, 0.0f, 0.0f);
-                                break;
-                            // Camuflagem amarelo
-                            case 4:
-                                glColor3f(1.0f, 1.0f, 0.0f);
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                        DesenharCubo();
-                        glScalef(4.0f, 2.0f, 1.0f);
-                        glTranslatef(4.25f, -3.0f, 11.0f);
+                        desenharMaoEsquerdaDianteira();
                     glPopMatrix();
                 glPopMatrix();
-
                 glPushMatrix();
-                    // Braco traseira da esquerda
-                    glTranslatef(-3.0f, -3.0f, -10.0f);
-                    glScalef(1.0f, 0.5f, 0.25f);
-            
-                    // Selecao das cores
-                    switch (cor) {
-                        // Cor original
-                        case 1:
-                            glColor3f(0.0f, 1.0f, 0.0f);
-                            break;
-                        // Camuflagem azul
-                        case 2:
-                            glColor3f(0.0f, 0.0f, 1.0f);
-                            break;
-                        // Camuflagem vermelha
-                        case 3:
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            break;
-                        // Camuflagem amarelo
-                        case 4:
-                            glColor3f(1.0f, 1.0f, 0.0f);
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    DesenharCubo();
-                    glScalef(1.0f, 2.0f, 4.0f);
-                    glTranslatef(3.0f, 3.0f, 10.0f);
-
+                    desenharBracoEsquerdoTraseiro();
                     glPushMatrix();
-                        // Movimento da mao
-                        glTranslatef(3.0f, -3.0f, -10.0f);
-                        glRotatef((GLfloat) mao2, 1.0, 0.0, 0.0);
-                        glTranslatef(-3.0f, 3.0f, 10.0f);
-
-                        // Desenho da mao
-                        glTranslatef(-4.25f, -3.0f, -11.0f);
-                        glScalef(0.25f, 0.5f, 1.0f);
-            
-                        // Selecao das cores
-                        switch (cor) {
-                            // Cor original
-                            case 1:
-                                glColor3f(0.0f, 0.0f, 1.0f);
-                                break;
-                            // Camuflagem azul
-                            case 2:
-                                glColor3f(0.0f, 0.0f, 1.0f);
-                                break;
-                            // Camuflagem vermelha
-                            case 3:
-                                glColor3f(1.0f, 0.0f, 0.0f);
-                                break;
-                            // Camuflagem amarelo
-                            case 4:
-                                glColor3f(1.0f, 1.0f, 0.0f);
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                        DesenharCubo();
-                        glScalef(4.0f, 2.0f, 1.0f);
-                        glTranslatef(4.25f, 3.0f, 11.0f);
+                        desenharMaoEsquerdaTraseira();
                     glPopMatrix();
                 glPopMatrix();
-
                 glPushMatrix();
-                    // Braco traseira da direita
-                    glTranslatef(3.0f, -3.0f, -10.0f);
-                    glScalef(1.0f, 0.5f, 0.25f);
-            
-                    // Selecao das cores
-                    switch (cor) {
-                        // Cor original
-                        case 1:
-                            glColor3f(0.0f, 1.0f, 0.0f);
-                            break;
-                        // Camuflagem azul
-                        case 2:
-                            glColor3f(0.0f, 0.0f, 1.0f);
-                            break;
-                        // Camuflagem vermelha
-                        case 3:
-                            glColor3f(1.0f, 0.0f, 0.0f);
-                            break;
-                        // Camuflagem amarelo
-                        case 4:
-                            glColor3f(1.0f, 1.0f, 0.0f);
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    DesenharCubo();
-                    glScalef(1.0f, 2.0f, 4.0f);
-                    glTranslatef(-3.0f, 3.0f, 10.0f);
-
+                    desenharBracoDireitoTraseiro();
                     glPushMatrix();
-                        // Movimento da mao
-                        glTranslatef(3.0f, -3.0f, -10.0f);
-                        glRotatef((GLfloat) mao1, 1.0, 0.0, 0.0);
-                        glTranslatef(-3.0f, 3.0f, 10.0f);
-
-                        // Desenho da mao
-                        glTranslatef(4.25f, -3.0f, -11.0f);
-                        glScalef(0.25f, 0.5f, 1.0f);
-            
-                        // Selecao das cores
-                        switch (cor) {
-                            // Cor original
-                            case 1:
-                                glColor3f(0.0f, 0.0f, 1.0f);
-                                break;
-                            // Camuflagem azul
-                            case 2:
-                                glColor3f(0.0f, 0.0f, 1.0f);
-                                break;
-                            // Camuflagem vermelha
-                            case 3:
-                                glColor3f(1.0f, 0.0f, 0.0f);
-                                break;
-                            // Camuflagem amarelo
-                            case 4:
-                                glColor3f(1.0f, 1.0f, 0.0f);
-                                break;
-                            default:
-                                break;
-                        }
-                        
-                        DesenharCubo();
-                        glScalef(4.0f, 2.0f, 1.0f);
-                        glTranslatef(-4.25f, 3.0f, 11.0f);
+                        desenharMaoDireitaTraseira();
                     glPopMatrix();
                 glPopMatrix();
             glPopMatrix();
@@ -607,6 +414,22 @@ void display(void) {
     glPopMatrix();
     glFlush();
     glDisable(GL_TEXTURE_2D);
+}
+
+// Funcao que realizar os desenhos
+void display(void) {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	PosicaoUser();
+	
+	glTranslatef(0.0f, 0.0f, zoom);
+	
+	glMatrixMode(GL_MODELVIEW);
+	
+    desenhaAmbiente();
+    
+    desenhaCamaleao();
+	
 	glutSwapBuffers();
 }
 
