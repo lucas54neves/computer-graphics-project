@@ -165,7 +165,6 @@ void reshape(int w, int h) {
 // Funcao que desenha um cubo
 // Serve de axiliar para realizar os desenhos
 void DesenharCubo() {
-//	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);
 		// Face frontal
 		glNormal3f(0, 0, 1);
@@ -204,8 +203,6 @@ void DesenharCubo() {
 		glTexCoord2f(1.0, 1.0);glVertex3f(-1.0f, 1.0f, 1.0f);
 		glTexCoord2f(1.0, 0.0);glVertex3f(-1.0f, 1.0f, -1.0f);
 	glEnd();
-//	glFlush();
-//  glDisable(GL_TEXTURE_2D);
 }
 
 void selecionarCor(int cor) {
@@ -232,16 +229,16 @@ void desenhaAmbiente() {
         glTranslatef(-posicaoAmbiente, 0.0f, 0.0f);
         glScalef(100.0f, 100.0f, 1.0f);
         glTranslatef(0.0f, 0.0f, -40.0f);
-        selecionarCor(4)
+        selecionarCor(4);
         DesenharCubo();
         glTranslatef(2.0f, 0.0f, 0.0f);
-        selecionarCor(3)
+        selecionarCor(3);
         DesenharCubo();
         glTranslatef(2.0f, 0.0f, 0.0f);
-        selecionarCor(2)
+        selecionarCor(2);
         DesenharCubo();
         glTranslatef(2.0f, 0.0f, 0.0f);
-        selecionarCor(1)
+        selecionarCor(1);
         DesenharCubo();
         glScalef(0.01f, 0.01f, 1.0f);
         glTranslatef(posicaoAmbiente, 0.0f, 40.0f);
@@ -406,11 +403,8 @@ void desenhaCamaleao() {
 // Funcao que realizar os desenhos
 void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	PosicaoUser();
-	
 	glTranslatef(0.0f, 0.0f, zoom);
-	
 	glMatrixMode(GL_MODELVIEW);
 	
     desenhaAmbiente();
