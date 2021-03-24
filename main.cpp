@@ -370,7 +370,7 @@ void desenhaCamaleao() {
             glPushMatrix();
                 desenharCabeca();
                 glPushMatrix();
-                    desenharBracoDireitoDianteiro;
+                    desenharBracoDireitoDianteiro();
                     glPushMatrix();
                         desenharMaoDireitaDianteira();
                     glPopMatrix();
