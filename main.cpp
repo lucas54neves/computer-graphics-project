@@ -665,6 +665,47 @@ void movimentoAmbienteVolta(void) {
     posicaoAmbiente = posicaoAmbiente - 1;
 }
 
+void movimentarParaFrente() {
+    if (posicao < 90 || (posicao > 270)) {
+        girarAnimalAntiHorario();
+    } else {
+        girarAnimalHorario();
+    }
+    movimentoMaos();
+}
+
+void movimentarParaEsquerda() {
+    if (posicao == 180) {
+        movimentoAmbienteVolta();
+    } else if (posicao < 180) {
+        girarAnimalAntiHorario();
+    } else if (posicao <= 360) {
+        girarAnimalHorario();
+    }
+    movimentoMaos();
+}
+
+void movimentarParaDireita() {
+    if (posicao < 180) {
+        girarAnimalHorario();
+    } else {
+        girarAnimalAntiHorario();
+    }
+    if (posicao < 5 || posicao > 355) {
+        movimentoAmbienteIda();
+    }
+    movimentoMaos();
+}
+
+void movimentarParaBaixo() {
+    if (posicao < 90 || posicao > 270) {
+        girarAnimalHorario();
+    } else {
+        girarAnimalAntiHorario();
+    }
+    movimentoMaos();
+}
+
 // Funcao que controla o teclado
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
@@ -690,47 +731,22 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         // Movimenta o animal para frente
         case 'w':
-            if (posicao < 90 || (posicao > 270)) {
-                girarAnimalAntiHorario();
-            } else {
-                girarAnimalHorario();
-            }
-            movimentoMaos();
+            movimentarParaFrente();
             glutPostRedisplay();
             break;
         // Movimenta o animal para esquerda
         case 'a':
-            if (posicao == 180) {
-                movimentoAmbienteVolta();
-            } else if (posicao < 180) {
-                girarAnimalAntiHorario();
-            } else if (posicao <= 360) {
-                girarAnimalHorario();
-            }
-            movimentoMaos();
+            movimentarParaEsquerda();
             glutPostRedisplay();
             break;
         // Movimenta o animal para direita
         case 'd':
-            if (posicao < 180) {
-                girarAnimalHorario();
-            } else {
-                girarAnimalAntiHorario();
-            }
-            if (posicao < 5 || posicao > 355) {
-                movimentoAmbienteIda();
-            }
-            movimentoMaos();
+            movimentarParaDireita();
             glutPostRedisplay();
             break;
         // Movimenta o animal para baixo
         case 's':
-            if (posicao < 90 || posicao > 270) {
-                girarAnimalHorario();
-            } else {
-                girarAnimalAntiHorario();
-            }
-            movimentoMaos();
+            movimentarParaBaixo();
             glutPostRedisplay();
             break;
         case 'z':
