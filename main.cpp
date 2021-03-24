@@ -610,15 +610,24 @@ void display(void) {
 	glutSwapBuffers();
 }
 
+void aumentarZoom(float i) {
+    zoom += i;
+    display();
+}
+
+void diminuirZoom(float i) {
+    zoom -= i;
+    display();
+}
+
 // Funcao que faz o movimento do mouse
 void mouse(int button, int state, int mousex, int mousey) { 
   if(button==GLUT_LEFT_BUTTON){
-  	zoom -= 1.0;
+  	aumentarZoom(0.3);
   }
   else if(button==GLUT_RIGHT_BUTTON){
-  	zoom += 1.0;
+  	diminuirZoom(0.3);
   }
-  display();
 }
 
 // Funcao que realiza o movimento das maos
@@ -671,6 +680,9 @@ void movimentarParaFrente() {
     } else {
         girarAnimalHorario();
     }
+    if (posicao > 80 && posicao < 100) {
+        diminuirZoom(0.05);
+    }
     movimentoMaos();
 }
 
@@ -702,6 +714,9 @@ void movimentarParaBaixo() {
         girarAnimalHorario();
     } else {
         girarAnimalAntiHorario();
+    }
+    if (posicao > 260 && posicao < 280 && zoom < 1.1) {
+        aumentarZoom(0.05);
     }
     movimentoMaos();
 }
